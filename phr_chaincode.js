@@ -29,30 +29,33 @@ let Chaincode = class {
 		let requestRecords = [];
 		requestRecords.push({
 			reqID:'0001',
-			providerID:'P001',
+			providerID:'PR011',
 			providerType:'physician',
-			patientID:'PR001',
+			patientID:'PA006',
 			category:'lifestyle',
 			requestStatus:'pending'
 		});
 		requestRecords.push({
 			reqID:'0002',
-			providerID:'P002',
-			providerType:'pharmacist'
-			patientID:'PR002',
+			providerID:'PR02',
+			providerType:'pharmacist',
+			patientID:'PA006',
 			category:'medication',
 			requestStatus:'accepted',
 		});
 		requestRecords.push({
 			reqID:'0003',
-			providerID:'P001',
+			providerID:'PR022',
 			providerType:'specialist',
-			patientID:'PR002',
+			patientID:'PA007',
 			category:'medication',
 			requestStatus:'accepted',
 		});
-
-
+		for (let i = 0; i < requestRecord.length; i++) {
+      			await stub.putState(requestRecord.reqID, Buffer.from(JSON.stringify(requestRecord[i])));
+      			console.info('Added <--> ', requestRecord[i]);
+    		}
+    		console.info('============= END : Initialize Ledger ===========');
 	}
 	async Request(stub,args){
 		console.info('============= START : Request Record ===========');
