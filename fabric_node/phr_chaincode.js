@@ -80,13 +80,13 @@ let Chaincode = class {
 		if(args[1] === "denied"){
 			let recordBytes = await stub .getState(args[0]);
 			let record = JSON.parse(recordBytes);
-			record.requestStatus: 'denied'
+			record.requestStatus= 'denied'
 			await stub.putState(args[0], Buffer.from(JSON.stringify(record)));
 		}
 		else if (args[1] === "accepted"){
 			let recordBytes = await stub .getState(args[0]);
 			let record = JSON.parse(recordBytes);
-			record.requestStatus: 'accepted'
+			record.requestStatus= 'accepted'
 			await stub.putState(args[0], Buffer.from(JSON.stringify(record)));
 		}
 		else {
@@ -104,7 +104,7 @@ let Chaincode = class {
 		}
 		let recordBytes = await stub .getState(args[0]);
 		let record = JSON.parse(recordBytes);
-		record.requestStatus: 'Revoked'
+		record.requestStatus= 'Revoked'
 		await stub.putState(args[0], Buffer.from(JSON.stringify(record)));
 	
 		console.info('============= END : Request Revoked ===========');
