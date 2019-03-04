@@ -77,8 +77,9 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.response(APIstub, args)
 	} else if function == "queryPatientRequests" {
 		return s.queryPatientRequests(APIstub)
+	} else if function == "revoke" {
+		return s.revoke(APIstub, args)
 	}
-
 	return shim.Error("Invalid Smart Contract function name.")
 }
 
@@ -144,8 +145,8 @@ func (s *SmartContract) response(APIstub shim.ChaincodeStubInterface, args []str
 
 func (s *SmartContract) revoke(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
-	if len(args) != 1 {
-		return shim.Error("Incorrect number of arguments. Expecting 1")
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
 	}
 
     //var request = Request{ProviderID: args[1], PatientID: args[2], Category: args[3], Status: args[4]}
@@ -153,7 +154,7 @@ func (s *SmartContract) revoke(APIstub shim.ChaincodeStubInterface, args []strin
 	request := Request{}
 
 	json.Unmarshal(reqAsBytes, &request)
-    if request.Status == "accepted" { 
+    if (request.Status == "accepted" && request.PatientID == args[1]) { 
 	request.Status = "revoked"
 
 	reqAsBytes, _ = json.Marshal(request)
